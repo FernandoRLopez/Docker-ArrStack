@@ -7,7 +7,7 @@ services:
       - /docker/data/transmission/downloads/:/data
       - /docker/config/transmission/:/config
     environment:
-      - OPENVPN_PROVIDER=MULLVAD
+      - OPENVPN_PROVIDER=VPN_CLIENT
       - OPENVPN_CONFIG=nl_all 
       - OPENVPN_USERNAME=KeyActivity
       - OPENVPN_PASSWORD=""
