@@ -4,7 +4,7 @@ This `docker-compose.yml` file configures and deploys multiple Docker containers
 
 ## Configured Services
 
-### 1. **Transmission with VPN **
+### 1. **Transmission with VPN**
    - **Purpose**: Runs Transmission alongside a VPN  to ensure downloading.
    - **Ports**: 7001 (Access Transmission's web interface)
    - **Volumes**: Configures paths for downloaded files and Transmission's settings.
