@@ -1,0 +1,97 @@
+version: "3.3"
+services:
+  transmission-openvpn:
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /docker/data/transmission/downloads/:/data
+      - /docker/config/transmission/:/config
+    environment:
+      - OPENVPN_PROVIDER=MULLVAD
+      - OPENVPN_CONFIG=nl_all 
+      - OPENVPN_USERNAME=KeyActivity
+      - OPENVPN_PASSWORD=""
+      - LOCAL_NETWORK=192.168.0.0/24
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    ports:
+      - '7001:9091'
+    image: haugene/transmission-openvpn
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    ports:
+      - 7002:8989 
+    volumes:
+      - /docker/config/sonarr:/config
+      - /docker/media/tvseries:/tvseries
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    ports:
+      - 7003:9696 
+    volumes:
+      - /docker/config/prowlarr:/config
+    restart: unless-stopped
+
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    ports:
+      - 7004:5055
+    volumes:
+      - /docker/config/jellyseerr:/app/config
+      - /docker/media/tvseries:/tvseries
+      - /docker/media/movies:/movies
+      - /docker/media/music:/music
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    ports:
+      - 7005:7878 
+    volumes:
+      - /docker/config/radarr:/config
+      - /docker/media/movies:/movies
+    restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+      - JELLYFIN_PublishedServerUrl=http://192.168.0.XXX #optional (anonymized)
+    ports:
+      - 7006:8096
+    volumes:
+      - /docker/config/jellyfin:/config
+      - /docker/media/tvseries:/data/tvshows
+      - /docker/media/movies:/data/movies
+      - /docker/media/music:/data/music
+    restart: unless-stopped
