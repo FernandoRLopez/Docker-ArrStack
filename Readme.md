@@ -4,8 +4,8 @@ This `docker-compose.yml` file configures and deploys multiple Docker containers
 
 ## Configured Services
 
-### 1. **Transmission with VPN (Mullvad)**
-   - **Purpose**: Runs Transmission alongside a VPN (Mullvad) to ensure anonymous downloading.
+### 1. **Transmission with VPN **
+   - **Purpose**: Runs Transmission alongside a VPN  to ensure downloading.
    - **Ports**: 7001 (Access Transmission's web interface)
    - **Volumes**: Configures paths for downloaded files and Transmission's settings.
 
@@ -59,3 +59,7 @@ The following environment variables are configured in the `docker-compose.yml` f
 
    ```bash
    docker-compose up -d
+
+## Notes
+- Ensure that the assigned ports do not conflict with other services running on your server.
+- You can modify the configurations as needed, such as adding more services or changing default settings.
